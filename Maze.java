@@ -30,7 +30,7 @@ public class Maze{
         int x = tempLines.size();
         int y = tempLines.get(0).length();
         // set x to size of ArrayList and y to the number of chars per line of ArrayList
-        char[][] maze = new char[x][y];
+        maze = new char[x][y];
         // initialize ans array with dimensions x and y
         for (int i = 0; i < x; i++){
           for (int j = 0; j < y; j++){
@@ -57,6 +57,20 @@ public class Maze{
         System.out.println("\033[2J\033[1;1H");
     }
 
+    /*Return the string that represents the maze.
+         It should look like the text file with some characters replaced.
+        */
+        public String toString(){
+          String ans = "";
+          for (int i = 0; i < maze.length; i++){
+            for (int j = 0; j < maze[i].length; j++){
+              if (maze[i][j] != '.') ans += maze[i][j];
+              else ans += ' ';
+              if (j == maze[i].length - 1 && i != maze.length - 1) ans += '\n';
+            }
+          }
+          return ans;
+        }
 
     /*Wrapper Solve Function returns the helper function
       Note the helper function has the same name, but different parameters.
@@ -100,10 +114,8 @@ public class Maze{
 
     public static void main(String[] args) {
       try{
-        Maze ans = new Maze("Maze1.txt");
-        for (int i = 0; i < ans.maze.length; i++){
-          System.out.println(Arrays.toString(ans.maze[i]));
-        }
+        Maze ans = new Maze("data1.dat");
+        System.out.println(ans);
       }catch(FileNotFoundException e){
         e.printStackTrace();
       }
