@@ -77,12 +77,19 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
     public int solve(){
-            //find the location of the S.
+      //find the location of the S.
+      for (int i = 0; i < maze.length; i++){
+        for (int j = 0; j < maze[i].length; j++){
+          if (maze[i][j] == 'S'){
+            maze[i][j] = '@';
+            return solve(i, j);
+          }
+        }
+      }
+      //erase the S
 
-            //erase the S
-
-            //and start solving at the location of the s.
-            //return solve(???,???);
+      //and start solving at the location of the s.
+      //return solve(???,???);
       return -1;
     }
 
@@ -114,10 +121,10 @@ public class Maze{
 
     public static void main(String[] args) {
       try{
-        Maze ans = new Maze("data1.dat");
+        Maze ans = new Maze("data.dat");
         System.out.println(ans);
       }catch(FileNotFoundException e){
-        e.printStackTrace();
+        System.out.println("File was not found");
       }
     }
 
