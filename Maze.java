@@ -80,8 +80,8 @@ public class Maze{
       for (int i = 0; i < maze.length; i++){
         for (int j = 0; j < maze[i].length; j++){
           if (maze[i][j] == 'S'){
-            maze[i][j] = '@';
-            return solve(i, j, 1);
+            maze[i][j] = ' ';
+            return solve(i, j, 0);
           }
         }
       }
@@ -113,17 +113,16 @@ public class Maze{
         wait(20);
       }
       //COMPLETE SOLVE
+      if (maze[row][col] == 'E') return count;
+      if (maze[row][col] != ' ') return -1;
       int[] moves = new int[] {0,1,1,0,0,-1,-1,0};
       for (int i = 0; i < moves.length; i+=2){
         int x = row + moves[i];
         int y = col + moves[i + 1];
-        if (maze[x][y] == 'E') return count;
-        if (maze[x][y] == ' '){
-          maze[x][y] = '@';
-          int ans = solve(x, y, count + 1);
-          if (ans != -1) return ans;
-          maze[x][y] = '.';
-        }
+        maze[row][col] = '@';
+        int ans = solve(x, y, count + 1);
+        if (ans != -1) return ans;
+        maze[row][col] = '.';
       }
       return -1; //so it compiles
     }
