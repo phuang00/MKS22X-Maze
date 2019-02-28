@@ -1,45 +1,20 @@
-import java.io.*;
+import java.io.IOException;
 
-public class Driver{
-    public static void main(String[]args){
-      String filename = "data1.dat";
-      try{
-        Maze f;
-        f = new Maze("data1.dat");//true animates the maze.
+public class Driver {
+	public static void main(String[] args) {
+		try {
+			// generate a maze
+			MazeGen g = new MazeGen(10, 20); // create new blank maze
+			g.generate(); // note: you can call generate() multiple times to re-generate a maze of the same size
+			g.writeToFile("maze.txt"); // self-explanatory
 
-        //f.setAnimate(true);
-        f.solve();
-        System.out.println();
-        System.out.println(f);
+			// solve the maze
+			Maze m = new Maze("maze.txt");
+      m.setAnimate(true);
+			m.solve();
+      System.out.println();
+			System.out.println(m);
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-        f = new Maze("data2.dat");
-
-        //f.setAnimate(true);
-        f.solve();
-        System.out.println();
-        System.out.println(f);
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-        f = new Maze("data3.dat");
-
-        //f.setAnimate(true);
-        f.solve();
-        System.out.println();
-        System.out.println(f);
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-      }catch(FileNotFoundException e){
-        System.out.println("Invalid filename: "+filename);
-      }
-    }
+		} catch (IOException e) {}
+	}
 }
