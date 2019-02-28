@@ -20,6 +20,7 @@ public class Maze{
     */
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
+        //animate = true;
         File f = new File(filename);
         Scanner in = new Scanner(f);
         ArrayList<String> tempLines = new ArrayList<>();
@@ -64,8 +65,7 @@ public class Maze{
           String ans = "";
           for (int i = 0; i < maze.length; i++){
             for (int j = 0; j < maze[i].length; j++){
-              if (maze[i][j] != '.') ans += maze[i][j];
-              else ans += ' ';
+              ans += maze[i][j];
               if (j == maze[i].length - 1 && i != maze.length - 1) ans += '\n';
             }
           }
@@ -82,7 +82,7 @@ public class Maze{
         for (int j = 0; j < maze[i].length; j++){
           if (maze[i][j] == 'S'){
             maze[i][j] = '@';
-            return solve(i, j);
+            return solve(i, j, 1);
           }
         }
       }
@@ -106,23 +106,50 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
-
-        //automatic animation! You are welcome.
-        if(animate){
-            clearTerminal();
-            System.out.println(this);
-            wait(20);
+    private int solve(int row, int col, int count){ //you can add more parameters since this is private
+      //automatic animation! You are welcome.
+      if(animate){
+        clearTerminal();
+        System.out.println(this);
+        wait(20);
+      }
+      //COMPLETE SOLVE
+      int[] moves = new int[] {0,1,1,0,0,-1,-1,0};
+      for (int i = 0; i < moves.length; i+=2){
+        int x = row + moves[i];
+        int y = col + moves[i + 1];
+        if (maze[x][y] == 'E') return count;
+        if (maze[x][y] == ' '){
+          maze[x][y] = '@';
+          int ans = solve(x, y, count + 1);
+          if (ans != -1) return ans;
+          maze[x][y] = '.';
         }
-
-        //COMPLETE SOLVE
-        return -1; //so it compiles
+      }
+      return -1; //so it compiles
     }
 
     public static void main(String[] args) {
       try{
-        Maze ans = new Maze("data.dat");
+        Maze ans = new Maze("data1.dat");
         System.out.println(ans);
+        System.out.println(ans.solve());
+        System.out.println(ans);
+
+        System.out.println();
+
+        ans = new Maze("data2.dat");
+        System.out.println(ans);
+        System.out.println(ans.solve());
+        System.out.println(ans);
+
+        System.out.println();
+
+        ans = new Maze("data3.dat");
+        System.out.println(ans);
+        System.out.println(ans.solve());
+        System.out.println(ans);
+
       }catch(FileNotFoundException e){
         System.out.println("File was not found");
       }
