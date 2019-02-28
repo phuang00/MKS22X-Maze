@@ -20,7 +20,6 @@ public class Maze{
     */
     public Maze(String filename) throws FileNotFoundException{
         //COMPLETE CONSTRUCTOR
-        //animate = true;
         File f = new File(filename);
         Scanner in = new Scanner(f);
         ArrayList<String> tempLines = new ArrayList<>();
@@ -128,31 +127,4 @@ public class Maze{
       }
       return -1; //so it compiles
     }
-
-    public static void main(String[] args) {
-      try{
-        Maze ans = new Maze("data1.dat");
-        System.out.println(ans);
-        System.out.println(ans.solve());
-        System.out.println(ans);
-
-        System.out.println();
-
-        ans = new Maze("data2.dat");
-        System.out.println(ans);
-        System.out.println(ans.solve());
-        System.out.println(ans);
-
-        System.out.println();
-
-        ans = new Maze("data3.dat");
-        System.out.println(ans);
-        System.out.println(ans.solve());
-        System.out.println(ans);
-
-      }catch(FileNotFoundException e){
-        System.out.println("File was not found");
-      }
-    }
-
 }
