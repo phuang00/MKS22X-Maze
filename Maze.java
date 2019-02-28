@@ -64,7 +64,11 @@ public class Maze{
           String ans = "";
           for (int i = 0; i < maze.length; i++){
             for (int j = 0; j < maze[i].length; j++){
-              ans += maze[i][j];
+              if (maze[i][j] == '#') ans += "\u001b[48;5;33m" + "\u001b[38;5;18m" + maze[i][j];
+              else if (maze[i][j] == '.') ans += "\u001b[38;5;99m" + maze[i][j];
+              else if (maze[i][j] == '@') ans += "\u001b[38;5;228m" + maze[i][j];
+              else ans+= maze[i][j];
+              ans += "\u001b[0m";
               if (j == maze[i].length - 1 && i != maze.length - 1) ans += '\n';
             }
           }
