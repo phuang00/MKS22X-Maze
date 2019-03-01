@@ -26,6 +26,8 @@ public class Maze{
         while (in.hasNextLine()){
           tempLines.add(in.nextLine());
         }
+        boolean hasE = false;
+        boolean hasS = false;
         // reads each line of the file into an ArrayList
         int x = tempLines.size();
         int y = tempLines.get(0).length();
@@ -34,10 +36,20 @@ public class Maze{
         // initialize ans array with dimensions x and y
         for (int i = 0; i < x; i++){
           for (int j = 0; j < y; j++){
-            maze[i][j] = tempLines.get(i).charAt(j);
+            char temp = tempLines.get(i).charAt(j);
+            if (temp == 'E'){
+              if (hasE) throw new IllegalStateException();
+              else hasE = true;
+            }
+            if (temp == 'S'){
+              if (hasS) throw new IllegalStateException();
+              else hasS = true;
+            }
+            maze[i][j] = temp;
             // transfer chars from ArrayList to ans
           }
         }
+        if (!(hasE && hasS)) throw new IllegalStateException();
     }
 
     private void wait(int millis){
@@ -64,12 +76,19 @@ public class Maze{
           String ans = "";
           for (int i = 0; i < maze.length; i++){
             for (int j = 0; j < maze[i].length; j++){
+              // for every char in the maze
               if (maze[i][j] == '#') ans += "\u001b[48;5;33m" + "\u001b[38;5;18m" + maze[i][j];
+              // if the char is #, add to ans and set the background color to blue and foreground color to a darker blue
               else if (maze[i][j] == '.') ans += "\u001b[38;5;99m" + maze[i][j];
+              // if the char is ., add to ans and set the foreground color to purple
               else if (maze[i][j] == '@') ans += "\u001b[38;5;228m" + maze[i][j];
+              // if the char is @, add to ans and set the foreground color to yellow
               else ans+= maze[i][j];
+              // otherwise, just add the char to ans
               ans += "\u001b[0m";
+              // after every char, reset the colors
               if (j == maze[i].length - 1 && i != maze.length - 1) ans += '\n';
+              // if the char is the last in the row and is not the last row, add a new line to ans
             }
           }
           return ans;
@@ -80,20 +99,20 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
     public int solve(){
-      //find the location of the S.
       for (int i = 0; i < maze.length; i++){
         for (int j = 0; j < maze[i].length; j++){
+          //find the location of the S.
           if (maze[i][j] == 'S'){
             maze[i][j] = ' ';
+            //erase the S
             return solve(i, j, 0);
+            // call helper method
+            //and start solving at the location of the s.
           }
         }
       }
-      //erase the S
-
-      //and start solving at the location of the s.
-      //return solve(???,???);
       return -1;
+      // if there is no S, return -1
     }
 
     /*
@@ -118,16 +137,25 @@ public class Maze{
       }
       //COMPLETE SOLVE
       if (maze[row][col] == 'E') return count;
+      // if the spot is the end, return the number of @'s
       if (maze[row][col] != ' ') return -1;
+      // if the spot is a valid move, return -1
       int[] moves = new int[] {0,1,1,0,0,-1,-1,0};
       for (int i = 0; i < moves.length; i+=2){
+        // for every one of the four directions
         int x = row + moves[i];
         int y = col + moves[i + 1];
+        // set temporary variables x,y to the indices of the spot to try next
         maze[row][col] = '@';
+        // set current spot to @
         int ans = solve(x, y, count + 1);
+        // set ans to the result when calling helper method on x,y and count + 1 (number of @'s)
         if (ans != -1) return ans;
+        // if ans is not -1, meaning the maze has a solution, return ans
         maze[row][col] = '.';
+        // else set the spot to ., meaning that there is not valid path at that spot
       }
-      return -1; //so it compiles
+      return -1;
+      // if there is no answer, return -1
     }
 }
