@@ -139,7 +139,7 @@ public class Maze{
       if (maze[row][col] == 'E') return count;
       // if the spot is the end, return the number of @'s
       if (maze[row][col] != ' ') return -1;
-      // if the spot is a valid move, return -1
+      // if the spot is not a valid move, return -1
       int[] moves = new int[] {0,1,1,0,0,-1,-1,0};
       for (int i = 0; i < moves.length; i+=2){
         // for every one of the four directions
